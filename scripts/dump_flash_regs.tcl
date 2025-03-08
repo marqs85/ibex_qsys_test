@@ -15,11 +15,6 @@ set flash_cmd_addr_register     0x00004024
 set flash_cmd_write_data_0      0x00004028
 set flash_cmd_read_data_0       0x00004030
 
-# target file details
-set bin_file mem_init/flash.bin
-set bin_size [file size $bin_file]
-set num_sectors [expr ($bin_size / $flash_secsize) + (($bin_size % $flash_secsize) ne 0)]
-
 #Select the master service type and check for available service paths.
 set service_paths [get_service_paths master]
 
@@ -30,7 +25,8 @@ set master_service_path [lindex $service_paths 0]
 set claim_path [claim_service master $master_service_path mylib]
 
 puts "Halting CPU"
-master_write_32 $claim_path 0x0 0x1
+master_write_32 $claim_path 0x40 0x00000001
+master_write_32 $claim_path 0x40 0x80000001
 
 #read status reg
 master_write_32 $claim_path $flash_cmd_setting 0x00001805

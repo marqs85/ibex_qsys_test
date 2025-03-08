@@ -64,7 +64,7 @@ for {set i 0} {$i<$num_sectors} {incr i} {
 }
 
 puts "Writing flash"
-# writes garbage and occasionally hangs when mm clk crossing FIFO starts backpressure
+# writes garbage and occasionally hangs (bug in generic serial flash IF?)
 #master_write_from_file $claim_path mem_init/flash.bin $flash_imem_base
 
 # work around the issue by writing into small chunks so that FIFO does not fill up

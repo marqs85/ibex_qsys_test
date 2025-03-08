@@ -2,8 +2,15 @@
 
 create_clock -period 50MHz -name clk50 [get_ports CLOCK_50_B6A]
 
+create_generated_clock -name flash_clk -divide_by 2 -source [get_ports CLOCK_50_B6A] [get_pins sys:u0|sys_intel_generic_serial_flash_interface_top_0:intel_generic_serial_flash_interface_top_0|sys_intel_generic_serial_flash_interface_top_0_qspi_inf_inst:qspi_inf_inst|flash_clk_reg|q]
+
 #derive_pll_clocks
 derive_clock_uncertainty
+
+### Groups ###
+
+set_clock_groups -asynchronous -group \
+                            {clk50 flash_clk}
 
 
 ### IO ###
